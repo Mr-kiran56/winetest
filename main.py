@@ -36,7 +36,7 @@ datamodel = pickle.load(open("newwinetest.sav", "rb"))
 # Root route (GET)
 @app.get("/")
 def read_root():
-    return {"message": "Wine Quality Prediction API is live 🍷"}
+    return {"message": response.text}
 
 # Prediction route (POST)
 @app.post("/winetestmodel")
