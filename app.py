@@ -31,7 +31,7 @@ class WineInput(BaseModel):
     alcoholquality: int
 
 
-datamodel = pickle.load(open(r"B:\Streanlit\New folder\newwinetest.sav", 'rb'))
+datamodel = pickle.load(open("newwinetest.sav", 'rb'))
 
 
 @app.post('/winetestmodel')
