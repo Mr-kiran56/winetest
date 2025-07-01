@@ -1,7 +1,8 @@
 import requests
 import json
 
-url = "http://127.0.0.1:8000/winetestmodel"
+# Replace with your actual Render deployment URL
+url = "https://your-render-app.onrender.com/winetestmodel"
 
 input_data = {
     "fixedacidity": 7.4,
@@ -14,16 +15,14 @@ input_data = {
     "density": 3.51,
     "pH": 0.56,
     "sulphate": 9.4,
-    "alcohal":12.5000,
+    "alcohal": 12.5,
     "alcoholquality": 5
 }
 
-
 newdata = json.dumps(input_data)
-
 headers = {"Content-Type": "application/json"}
 
-requestdata = requests.post(url, data=newdata, headers=headers)
+response = requests.post(url, data=newdata, headers=headers)
 
-print("Status Code:", requestdata.status_code)
-print("Response:", requestdata.text)
+print("Status Code:", response.status_code)
+print("Response:", response.text)
