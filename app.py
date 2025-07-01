@@ -4,9 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import pickle
 
 app = FastAPI()
-origins = ["*"]
 
-# ✅ Add CORS middleware
+# CORS for any frontend/clients
+origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -15,7 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+# Define the data model
 class WineInput(BaseModel):
     fixedacidity: float
     volatileacidity: float
@@ -27,14 +27,19 @@ class WineInput(BaseModel):
     density: float
     pH: float
     sulphate: float
-    alcohal:float
+    alcohal: float
     alcoholquality: int
 
+# Load model
+datamodel = pickle.load(open("newwinetest.sav", "rb"))
 
-datamodel = pickle.load(open("newwinetest.sav", 'rb'))
+# Root route (GET)
+@app.get("/")
+def read_root():
+    return {"message": "Wine Quality Prediction API is live 🍷"}
 
-
-@app.post('/winetestmodel')
+# Prediction route (POST)
+@app.post("/winetestmodel")
 def winetest(inputfeture: WineInput):
     try:
         input_list = [
@@ -50,15 +55,11 @@ def winetest(inputfeture: WineInput):
             inputfeture.sulphate,
             inputfeture.alcohal,
             inputfeture.alcoholquality
-            
         ]
 
-      
-        print("INPUT to model:", input_list)
-
         prediction = datamodel.predict([input_list])
-
-        return {"result": "Good quality wine 🍷" if prediction[0] else "Not a good quality wine"}
-
+        return {
+            "result": "Good quality wine 🍷" if prediction[0] else "Not a good quality wine"
+        }
     except Exception as e:
         return {"error": str(e)}
