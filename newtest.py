@@ -24,5 +24,9 @@ headers = {"Content-Type": "application/json"}
 
 response = requests.post(url, data=newdata, headers=headers)
 
+# Root route (GET)
+@app.get("/")
+def read_root():
+    return {"message": response.text}
 print("Status Code:", response.status_code)
 print("Response:", response.text)
